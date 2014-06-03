@@ -19,10 +19,11 @@
 			<form method="post">
 				<fieldset name="Group1">
 					<legend>Create Account</legend>
-					<label id="Label1">Username</label><br /> <input name="Text1"
-						type="text" /><br /> <label id="Label2">Password</label><br />
-					<input name="Password1" type="password" /><br /> <input
-						name="Submit" type="submit" value="Submit" />
+					<label id="Label1">Username</label><br /> 
+					<input name="Text1"	type="text" /><br />
+					<label id="Label2">Password</label><br />
+					<input name="Password1" type="password" /><br /> 
+					<input id="Button1" name="Submit" type="button" value="Submit" />
 				</fieldset>
 			</form>
 		</div>
@@ -33,7 +34,25 @@
 	<script>
 		$("#menu").load("menu.html");
 	</script>
-
+	
+    <script>
+    	(function($){
+	           $("#Button1").on( 'click', function( event ) {
+  					addUser();
+               });
+	     })(jQuery);
+    	
+		function addUser() {
+			var ctx = window.location.pathname;
+			ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
+			var url = ctx + "users/create";
+			// console.log(ctx);
+			var name = $('[name="Text1"]').val();
+			var passwd = $('[name="Password1"]').val();
+			$.get( url, { name:name, passwd:passwd } );
+		}
+	</script>
+	
 </body>
 
 </html>
