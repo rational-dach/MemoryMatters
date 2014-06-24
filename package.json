@@ -6,6 +6,8 @@
   "dependencies": {
     "express": "4.x",
     "mongodb": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "bcrypt-nodejs": "*",
+    "utf8":"*"	
   }
 }

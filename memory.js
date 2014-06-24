@@ -2,6 +2,7 @@
 var port = (process.env.VCAP_APP_PORT || 3000);
 var express = require("express");
 var users = require('./routes/users');
+var mongoose = require('mongoose');
 
 // setup database
 var mongodb = require('mongodb');
@@ -18,7 +19,7 @@ if (!mongo) {
 			"url" : "mongodb://localhost:27017/memory"
 	};
 }
-var mongoose = require('mongoose');
+
 mongoose.connect(mongo.url);
 var db = mongoose.connection;
 

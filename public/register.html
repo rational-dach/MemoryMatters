@@ -11,18 +11,22 @@
 </head>
 
 <body>
-
-
 	<span>
 		<div id="layer1"
 			style="position: absolute; width: 298px; height: 124px; z-index: 1; left: 23px; top: 113px">
-			<form method="post">
+			<form id = method="post">
 				<fieldset name="Group1">
 					<legend>Create Account</legend>
-					<label id="Label1">Username</label><br /> 
-					<input name="Text1"	type="text" /><br />
-					<label id="Label2">Password</label><br />
-					<input name="Password1" type="password" /><br /> 
+					<label id="Label1">User ID</label><br /> 
+					<input name="userId"	type="text" /><br />
+					<label id="Label2">First name</label><br /> 
+					<input name="firstName"	type="text" /><br />
+					<label id="Label3">Last name</label><br /> 
+					<input name="lastName"	type="text" /><br />
+					<label id="Label4">E-Mail adress</label><br /> 
+					<input name="eMail"	type="text" /><br />
+					<label id="Label5">Password</label><br />
+					<input name="password" type="password" /><br /> 
 					<input id="Button1" name="Submit" type="button" value="Submit" />
 				</fieldset>
 			</form>
@@ -30,11 +34,32 @@
 	</span>
 
 	<div id="menu"></div>
-
 	<script>
 		$("#menu").load("menu.html");
 	</script>
 	
+	<script>
+	$(document).ready(function () {
+
+    $('#myform').validate({ // initialize the plugin
+        rules: {
+            field1: {
+                required: true,
+                email: true
+            },
+            field2: {
+                required: true,
+                minlength: 5
+            }
+        },
+        submitHandler: function (form) { // for demo
+            alert('valid form submitted'); // for demo
+            return false; // for demo
+        }
+    });
+});
+</script>
+	    
     <script>
     	(function($){
 	           $("#Button1").on( 'click', function( event ) {
@@ -47,9 +72,21 @@
 			ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
 			var url = ctx + "users/create";
 			// console.log(ctx);
-			var name = $('[name="Text1"]').val();
-			var passwd = $('[name="Password1"]').val();
-			$.get( url, { name:name, passwd:passwd } );
+			var userId = $('[name="userId"]').val();
+			var firstName = $('[name="firstName"]').val();
+			var lastName = $('[name="lastName"]').val();
+			var eMail = $('[name="eMail"]').val();
+			var password = $('[name="password"]').val();
+			// check unique userid
+			var url2 = ctx + "users/useridcheck";
+			$.get( url2, { userId:userId} , function( data ){
+				if(data == false){
+					window.alert("User ID not unique");
+				}
+				else{
+					$.get( url, { userId:userId, firstName:firstName,lastName:lastName,eMail:eMail,password:password});
+				}
+			});
 		}
 	</script>
 	
