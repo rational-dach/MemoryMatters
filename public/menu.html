@@ -24,9 +24,9 @@
                 <ul>
                     <li><a href="#" title="Nav Link 1">Open Old Game</a></li>
                 <li>
-                    <a href="#" title="Nav Link 1">Very</a>
+                    <a href="#" title="Nav Link 1">Play Game</a>
                     <ul> 
-                        <li><a href="#" title="Sub Nav Link 1">Sub Nav Link 1</a></li>
+                        <li><a href="#" title="Sub Nav Link 1">Computer</a></li>
                         <li><a href="#" title="Sub Nav Link 2">Sub Nav Link 2</a></li>
                         <li><a href="#" title="Sub Nav Link 3">Sub Nav Link 3</a></li>
                         <li><a href="#" title="Sub Nav Link 4">Sub Nav Link 4</a></li>
@@ -65,13 +65,19 @@
   						        if ($( this ).text() == "Open Old Game"){
   							      window.location.href='indexOld.html';
                       }
-                  });
+                    });
                   
-                  $( 'li' ).on( 'click', function( event ) {
+                    $( 'li' ).on( 'click', function( event ) {
   						        if ($( this ).text() == "Register"){
   							      window.location.href='register.html';
-                      }
-                  });
+                      			}
+                    });
+                    
+                    $( 'li' ).on( 'click', function( event ) {
+					        	if ($( this ).text() == "Computer"){
+						      		window.location.href='game.html';
+              					}
+            		});
 	            }
 	        });
 	    })(jQuery);
