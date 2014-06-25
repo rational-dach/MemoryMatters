@@ -1,4 +1,4 @@
-var player = include('public/js/player.js');
+var player = include('js/player.js');
 
 function Game(x,y,id) {
 	this.width = x;

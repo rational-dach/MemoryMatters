@@ -8,7 +8,7 @@ global.include = function(file) {
 };
 
 // instantiate game controller
-var controller = include('/public/js/controller.js');
+var controller = include('/js/controller.js');
 var gameController = new controller();
 
 // variable for this script
@@ -16,7 +16,7 @@ var port = (process.env.VCAP_APP_PORT || 3000);
 var express = require("express");
 var users = require('./routes/users');
 var mongoose = require('mongoose');
-var game = require('./routes/api-game');
+var api_game = require('./routes/api-game');
 
 // setup database
 var mongodb = require('mongodb');
@@ -54,7 +54,7 @@ setInterval(gameController.Process, 2000);
 // application context
 app.use(express.static(__dirname + '/public'));
 app.use('/users', users);
-app.use('/game', game);
+app.use('/game', api_game);
 
 
 // ready to go

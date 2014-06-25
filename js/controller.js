@@ -1,5 +1,5 @@
-var player = include('public/js/player.js');
-var game = include('public/js/game.js');
+var player = include('js/player.js');
+var game = include('js/game.js');
 
 function Controller() {
 	
