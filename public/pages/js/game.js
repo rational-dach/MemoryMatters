@@ -11,6 +11,7 @@
 	$(document).ready(function($){ 
 		$('#topNav').show();
 		$('#play').css("text-decoration","underline");
+		$("body").fadeIn(1000);
 	});
 
 	$('li').on( 'click', function( event ) {

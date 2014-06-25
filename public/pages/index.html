@@ -6,6 +6,11 @@
     </body>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script>
-      $("#menu").load("menu.html");
+      	$("#menu").load("menu.html");
+  		$(document).ready(function($){ 
+			$('#topNav').show();
+			$('#play').css("text-decoration","underline");
+			$("body").fadeIn(1000);
+		});
     </script>
 </html>

@@ -8,6 +8,7 @@
 	$(document).ready(function($){ 
 		$('#topNav').show();
 		$('#logon').css("text-decoration","underline");
+		$("body").fadeIn(1000);
 	});
 	
 })(jQuery);
