@@ -27,6 +27,7 @@
 
 function addUser() {
 	var ctx = window.location.pathname;
+	ctx = ctx.substring(0, ctx.lastIndexOf("/"));
 	ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
 	var url = ctx + "users/create";
 	// console.log(ctx);

@@ -65,4 +65,43 @@ router.get('/create', function(req, res) {
    });	
  });
 
+// login
+router.get('/login', function(req, res) {
+	var ret = {loggedIn: "false"};
+	//fetch user and test password verification
+	User.findOne({ _id: req.query.userId }, function(err, user) {
+		if (!err) {
+			user.comparePassword(req.query.password, function(err, isMatch) {
+				if (isMatch) {
+					ret.loggedIn = "true";
+					req.session.loggedIn = true;
+					req.session.username = user._id;
+					res.send(ret);
+				}
+				else
+					res.send(ret);
+			});
+		}
+	});
+});
+
+//logout
+router.get('/logout', function(req, res) {
+	req.session.loggedIn = null;
+	req.session.user = null;
+	res.send("logged out");
+});
+
+// current user
+router.get('/currentUser', function(req, res) {
+	var ret = {username: ""};
+	if (req.session.loggedIn == true) {
+		ret.username = req.session.username;
+		res.send(ret);
+	}
+	else {
+		res.send(ret);
+	}
+});
+
 module.exports = router;

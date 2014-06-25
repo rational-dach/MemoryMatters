@@ -16,6 +16,8 @@ var port = (process.env.VCAP_APP_PORT || 3000);
 var express = require("express");
 var users = require('./routes/users');
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var api_game = require('./routes/api-game');
 
 // setup database
@@ -40,13 +42,24 @@ var db = mongoose.connection;
 // create application
 var app = express();
 
+// session handling
+app.use(cookieParser());
+app.use(session({secret: '1234567890QWERTY'}));
+
 //Make some objects accessible to our router
 app.use(function(req,res,next){
-    req.db = db;
-    req.controller = gameController;
-    next();
+	req.db = db;
+	req.controller = gameController;
+	if (req.originalUrl == "/pages/game.html") {
+		if (!req.session.loggedIn)
+			res.redirect('/');
+		else
+			next();
+	}
+	else {
+		next();
+	}
 });
-
 
 // process controller every interval
 setInterval(gameController.Process, 2000);

@@ -15,8 +15,10 @@ function login() {
 	var password = $('[name="password"]').val();
 	
 	$.get( url, { userId:userId, password:password}, function(data) {
-		if (data.loggedIn == "true")
+		if (data.loggedIn == "true") {
 			console.log("yes");
+			location.reload();
+		}
 		else
 			console.log("no");
 	});	

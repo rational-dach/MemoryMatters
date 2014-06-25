@@ -8,6 +8,8 @@
     "mongodb": "*",
     "mongoose": "*",
     "bcrypt-nodejs": "*",
-    "utf8":"*"	
+    "utf8":"*",
+    "cookie-parser": "*",
+    "express-session": "*"
   }
 }

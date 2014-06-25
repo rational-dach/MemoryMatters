@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var player = include('public/js/server/player.js');
+var player = include('js/player.js');
 
 //invoked for any requests passed to this router
 router.use(function(req, res, next) {
