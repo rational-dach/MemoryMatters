@@ -4,6 +4,12 @@
 	$("#Button1").on( 'click', function( event ) {
 		login();
 	});
+	
+	$(document).ready(function($){ 
+		$('#topNav').show();
+		$('#logon').css("text-decoration","underline");
+	});
+	
 })(jQuery);
 
 function login() {

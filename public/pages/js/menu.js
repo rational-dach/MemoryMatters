@@ -52,7 +52,11 @@
 			window.location.href='game.html';
 		}
 	});
-		
+
+	$(document).ready(function($){ 
+		$('#topNav').show();
+	});
+	
 })(jQuery);
 
 function checkUser() {
