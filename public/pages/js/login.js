@@ -24,7 +24,8 @@ function login() {
 	$.get( url, { userId:userId, password:password}, function(data) {
 		if (data.loggedIn == "true") {
 			console.log("yes");
-			location.reload();
+			//location.reload();
+			window.location.href='index.html';
 		}
 		else
 			console.log("no");

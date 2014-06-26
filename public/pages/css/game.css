@@ -93,4 +93,20 @@ body {
 	transform: scale(1);
 }
 
+.info {
+	display: block;
+	color: Blue;
+	text-align:center;
+	font-size: 16pt
+}
 
+.score {
+	display: block;
+	color: Blue;
+}
+
+.player {
+	display: block;
+	color: Blue;
+	text-align:right;
+}

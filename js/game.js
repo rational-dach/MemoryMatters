@@ -12,44 +12,36 @@ function Game(x,y,id) {
 	var pairsLeft = 0;
 	var started = false;
 	var board = [];
-	var lastTurn = {x1: 0, y1: 0, val1: 0, x2: 0, y2: 0, val2: 0};
+	var lastTurn = {pos1: 0, val1: -1, pos2: 0, val2: -1};
 	
 	// create the board
 	var tmpval = 0;
 	var tmpstep = 0; 
-	for (var i = 0; i < x; i++) {
-		board[i] = [];
-		for (var j = 0; j < y; j++) {
-			board[i][j] = tmpval;
-			tmpstep++;
-			if (tmpstep > 1) {
-				tmpval++;
-				tmpstep=0;
-			}
+	for (var i = 0; i < x*y; i++) {
+		board[i] = tmpval;
+		tmpstep++;
+		if (tmpstep > 1) {
+			tmpval++;
+			tmpstep=0;
 		}
 	}
 	
 	function calcPairsLeft() {
 		var cards = 0;
-		for (var i = 0; i < x; i++) {
-			for (var j = 0; j < y; j++) {
-				if (board[i][j] != -1)
-					cards++;
-			}
+		for (var i = 0; i < x*y; i++) {
+			if (board[i] != -1)
+				cards++;
 		}
 		pairsLeft = cards/2;
 	};
 	
 	// shuffle cards
 	this.Shuffle = function() {
-		for (var i = 0; i < x; i++) {
-			for (var j = 0; j < y; j++) {
-				var randx = Math.floor(Math.random()*x);
-				var randy = Math.floor(Math.random()*y);
-				var tmp = board[i][j];
-				board[i][j] = board[randx][randy];
-				board[randx][randy] = tmp;
-			}
+		for (var i = 0; i < x*y; i++) {
+			var rand = Math.floor(Math.random()*x*y);
+			var tmp = board[i];
+			board[i] = board[rand];
+			board[rand] = tmp;
 		}
 	};
 	
@@ -63,33 +55,36 @@ function Game(x,y,id) {
 	};
 	
 	// turn card
-	this.TurnCard = function(username, x, y) {
+	this.TurnCard = function(username, pos) {
 		var ret = 0;
 		if (pairsLeft <= 0)
 			return -1;
 		if (players[curPlayer].name != username)
 			return -1;
-		ret = board[x][y];
-		if (board[x][y] < 0)
+		ret = board[pos];
+		if (board[pos] < 0)
 			return -1;
 		
 		if (step == 0) {
-			lastTurn.x1 = x;
-			lastTurn.y2 = y;
+			lastTurn.pos1 = pos;
 			lastTurn.val1 = ret;
 			step++;
 		}
 		else {
-			if (board[x][y] == board[lastTurn.x1][lastTurn.y1]) {
-				board[x][y] = -1;
-				board[lastTurn.x1][lastTurn.y1] = -1;
-				players[curPLayer].score++;
+			if (board[pos] == board[lastTurn.pos1]) {
+				board[pos] = -1;
+				board[lastTurn.pos1] = -1;
+				players[curPlayer].score++;
+				console.log('player: ', players[curPlayer].name, 'Score: ', players[curPlayer].score);
 				calcPairsLeft();
 			}
-			lastTurn.x2 = x;
-			lastTurn.y2 = y;
+//			else {
+				curPlayer++;
+				curPlayer = curPlayer % players.length;
+//			}
+			lastTurn.pos2 = pos;
 			lastTurn.val2 = ret;
-			curPlayer = curPlayer++ % players.length;
+			console.log('Player:', curPlayer);
 			step = 0;
 		}
 		lastActivity = Date.now();
@@ -99,7 +94,11 @@ function Game(x,y,id) {
 	
 	// current state of game
 	this.GetState = function() {
-		var state = {user: players[curPlayer], step: step, left: pairsLeft};
+		var state = {curPlayer: curPlayer,
+					players: players,
+					step: step, 
+					left: pairsLeft,
+					last: lastTurn};
 		return state;
 	};
 	
@@ -119,7 +118,7 @@ function Game(x,y,id) {
 	
 	// called by housekeeping to act in behalf of computer players
 	this.Process = function() {
-		if (players[curPlayer] != player.usertype.COMPUTER)
+		if (players[curPlayer].type != player.usertype.COMPUTER)
 			return;
 		if (!started)
 			return;

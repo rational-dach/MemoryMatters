@@ -22,7 +22,9 @@ router.get('/querygame', function(req, res) {
 
 // play game
 router.get('/playgame', function(req, res) {
-	var ret = req.controller.PlayGame(req.query.gameid, req.query.user, req.query.x, req.query.y);
+	var pos = req.query.pos;
+	var ret = req.controller.PlayGame(req.query.gameid, req.query.user, req.query.pos);
+	console.log(ret, 'at pos: ', pos);
 	res.send(ret);
 });
 

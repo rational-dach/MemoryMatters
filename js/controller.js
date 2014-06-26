@@ -30,11 +30,11 @@ function Controller() {
 	};
 	
 	// user plays the game
-	this.PlayGame = function(id, username, x, y) {
+	this.PlayGame = function(id, username, pos) {
 		var ret = {card: -1};
 		for (var i=0; i<games.length; i++) {
 			if (games[i].id == id && games[i].IsActive()) {
-				ret.card = games[i].TurnCard(username, x, y);
+				ret.card = games[i].TurnCard(username, pos);
 				break;
 			}
 		}
@@ -47,7 +47,7 @@ function Controller() {
 		for (var i=0; i<gameRequests.length; i++) {
 			if (gameRequests[i].type == player.usertype.COMPUTER) {
 				var newGame = new game(4,4,gameRequests[i].id);
-				var player1 = new player("", player.usertype.COMPUTER);
+				var player1 = new player("DevOps", player.usertype.COMPUTER);
 				newGame.SetPlayer(player1);
 				var player2 = new player(gameRequests[i].name, player.usertype.HUMAN);
 				newGame.SetPlayer(player2);
