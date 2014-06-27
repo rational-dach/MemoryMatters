@@ -112,6 +112,8 @@ function Game(x,y,id) {
 	this.IsActive = function() {
 		if (Date.now() - lastActivity > 60*5*1000)
 			return false;
+		else if (pairsLeft <= 0)
+			return false;
 		else
 			return true;
 	};

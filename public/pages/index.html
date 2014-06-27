@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body>
-      <div id="menu"></div>
-      <img alt="" class="auto-style1" height="218" src="images/devops.png" width="215" style="left: 100px; top: 75px">
-    </body>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script>
-      	$("#menu").load("menu.html");
-  		$(document).ready(function($){ 
-			$('#topNav').show();
-			$('#play').css("text-decoration","underline");
-			$("body").fadeIn(1000);
-		});
-    </script>
+<head>
+  <meta charset="utf-8">
+  <link href="css/index.css" rel="stylesheet" type="text/css">
+  <style>body{display:none}</style>
+</head>
+<body>
+   	<div id="menu"></div>
+   	<div class="content">
+     	<img alt="" class="auto-style1" height="150" src="images/devops.png" width="150" style="left: 100px; top: 75px">
+     	<div class="content2">
+      	<h3>Memory Matters<br/>
+      	running on Bluemix<br/>
+      	developed with IBM DevOpsServices</h3></br>
+      	<p>Project for training purposes</p>
+      	</div>
+   	</div>
+</body>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+   	$("#menu").load("menu.html");
+	$(document).ready(function($){ 
+		$('#topNav').show();
+		$('#play').css("text-decoration","underline");
+		$("body").fadeIn(1000);
+	});
+ </script>
 </html>
