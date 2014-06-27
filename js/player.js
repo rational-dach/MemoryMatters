@@ -44,13 +44,13 @@ function Player(name, usertype) {
 	    var match = -1;
 	    for (var i=0; i<memory.length; i++) {
 	    	for (var j=i+1; j<memory.length; j++) {
-	    		if (memory[i].val == memory[j].val) {
+	    		if (memory[i].val == memory[j].val && memory[i].pos != memory[j].pos) {
 	    			match = i;
 	    			break;
 	    		}
-	    		if (match != -1)
-	    			break;
 	    	}
+    		if (match != -1)
+    			break;
 	    }
 	    
 	    // step one
