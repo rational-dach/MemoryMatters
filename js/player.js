@@ -103,7 +103,7 @@ function Player(name, usertype) {
 	function AdjustMemory() {
     	// clear invalid cards
     	for (var i=0; i<memory.length; i++) {
-    		if (board[memory[i].pos] != 1)
+    		if (board[memory[i].pos] != 1 || memory[i].val == -1)
     			memory.splice(i--, 1);
     	}
     	

@@ -16,6 +16,7 @@
 		$('#topNav').show();
 		$('#play').css("text-decoration","underline");
 		$("body").fadeIn(1000);
+		step = 3;
 		GetUser();
 	});
 
@@ -23,7 +24,6 @@
 		var idx = $(this).index();
 		// try card
 		if (board[idx] == 1 && step < 2) {
-			step++;
 			TurnCard(idx);
 		}
 	});
@@ -85,18 +85,21 @@
 		ctx = ctx.substring(0, ctx.lastIndexOf("/"));
 		ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
 		var url = ctx + "game/playgame";
-		if (step <= 1)
-			pos1 = $('#list > li').eq(idx);
-		else
-			pos2 = $('#list > li').eq(idx);
 		
 		$.get( url, {gameid: gameId, user:user, pos: idx}, function(data) {
+			if (data.card < 0) {
+				alert("no card at this index");
+				return;
+			}
+			step++;
 			var file = 'images/cards/card'+data.card+'.jpg';
 			if (step <= 1) {
+				pos1 = $('#list > li').eq(idx);
 				val1 = data.card;
 				$('img', pos1).attr('src', file);	
 			}
 			else {
+				pos2 = $('#list > li').eq(idx);
 				val2 = data.card;
 				$('img', pos2).attr('src', file);
 				var match = false;
@@ -104,7 +107,6 @@
 					match = true;
 					console.log("---------- match");
 				}
-				console.log('call FinishMode');
 				setTimeout(FinishMove, 3000, pos1, pos2, match, 3);
 			}
 		});	
@@ -119,14 +121,17 @@
 		$.get( url, {gameid:gameId}, function(data) {
 			if (data.active) {
 				var player = data.state.players[data.state.curPlayer].name;
-				$('#curplayer').text(player);
 				
 				for (var i=0; i<2; i++) {
 					if (data.state.players[i].name == user) {
 						$('#homescore').text(data.state.players[i].score);
+						if (step == 0)
+							$('#curplayer').text(data.state.players[i].name);
 					}
 					else {
 						$('#visitorscore').text(data.state.players[i].score);
+						if (step == 3)
+							$('#curplayer').text(data.state.players[i].name);
 					}
 				}
 				
@@ -145,6 +150,10 @@
 						var match = lastTurn.val1 == lastTurn.val2;
 						console.log('call FinishMode');
 						setTimeout(FinishMove, 3000, pos1, pos2, match, 0);
+					}
+					else {
+						$('#curplayer').text(user);
+						step = 0;
 					}
 				}
 			}
