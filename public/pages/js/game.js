@@ -85,6 +85,10 @@
 		ctx = ctx.substring(0, ctx.lastIndexOf("/"));
 		ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
 		var url = ctx + "game/playgame";
+		if ($(pos1).index() == idx) {
+		    console.log("double click same card");
+		    return;
+		}
 		
 		$.get( url, {gameid: gameId, user:user, pos: idx}, function(data) {
 			if (data.card < 0) {
