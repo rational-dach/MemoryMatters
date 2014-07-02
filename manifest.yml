@@ -3,7 +3,7 @@ applications:
 - name: MemoryMatters
   framework: node
   runtime: node08
-  memory: 64M
+  memory: 128M
   instances: 1
   host: Memory
   path: .     
