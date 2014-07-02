@@ -12,7 +12,13 @@ var controller = include('/js/controller.js');
 var gameController = new controller();
 
 // variable for this script
-var port = (process.env.VCAP_APP_PORT || 3000);
+var cfenv = null;
+try { 
+    cfenv = require('cfenv');
+}
+catch(err) {
+}
+
 var express = require("express");
 var users = require('./routes/users');
 var mongoose = require('mongoose');
@@ -20,16 +26,24 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var api_game = require('./routes/api-game');
 
-// setup database
-var mongodb = require('mongodb');
-if (process.env.VCAP_SERVICES) {
-	var env = JSON.parse(process.env.VCAP_SERVICES);
-	if (env['mongodb-2.2']) {
-		var mongo = env['mongodb-2.2'][0].credentials;
-	}
+//get the core cfenv application environment
+var mongo = "";
+var port = 3000;
+if (cfenv) {
+    var appEnv = cfenv.getAppEnv();
+
+//  setup database
+    var mongodb = require('mongodb');
+    var mongoService = appEnv.getServices('mongodb-2.2');
+    if (mongoService) {
+        var mongo = mongoService[0].credentials;
+    }
+
+    port = appEnv.port;
 }
-if (!mongo) { 
-	var mongo = {
+
+if (mongo == "") { 
+	mongo = {
 			"username" : "user1",
 			"password" : "secret",
 			"url" : "mongodb://localhost:27017/memory"

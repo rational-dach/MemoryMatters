@@ -10,6 +10,7 @@
     "bcrypt-nodejs": "*",
     "utf8":"*",
     "cookie-parser": "*",
-    "express-session": "*"
+    "express-session": "*",
+    "cfenv": "0.2.x"
   }
 }
