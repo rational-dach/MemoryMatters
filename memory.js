@@ -32,11 +32,12 @@ var port = 3000;
 if (cfenv) {
     var appEnv = cfenv.getAppEnv();
 
-//  setup database
+    //  setup database
     var mongodb = require('mongodb');
-    var mongoService = appEnv.getServices('mongodb-2.2');
+    var mongoService = appEnv.services['mongolab'][0];
+    console.log(mongoService);
     if (mongoService) {
-        var mongo = mongoService[0].credentials;
+        var mongo = mongoService.credentials;
     }
 
     port = appEnv.port;
@@ -46,12 +47,14 @@ if (mongo == "") {
 	mongo = {
 			"username" : "user1",
 			"password" : "secret",
-			"url" : "mongodb://localhost:27017/memory"
+			"uri" : "mongodb://localhost:27017/memory"
 	};
 }
 
-mongoose.connect(mongo.url);
-var db = mongoose.connection;
+console.log(mongo);
+
+mongoose.connect(mongo.uri);
+var db = null; //mongoose.connection;
 
 // create application
 var app = express();
