@@ -33,11 +33,12 @@ if (cfenv) {
     var appEnv = cfenv.getAppEnv();
 
     //  setup database
-    var mongodb = require('mongodb');
-    var mongoService = appEnv.services['mongolab'][0];
-    console.log(mongoService);
-    if (mongoService) {
-        var mongo = mongoService.credentials;
+    if (appEnv.services && appEnv.services['mongolab']) {
+        var mongoService = appEnv.services['mongolab'][0];
+        console.log(mongoService);
+        if (mongoService) {
+            var mongo = mongoService.credentials;
+        }
     }
 
     port = appEnv.port;
