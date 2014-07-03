@@ -1,14 +1,14 @@
 (function($){
-	$("#menu").load("menu.html");
 	
+    $.ajaxSetup({ cache: false });
+    
 	$("#Button1").on( 'click', function( event ) {
 		addUser();
 	});
 	
 	$(document).ready(function($){ 
-		$('#topNav').show();
-		$('#register').css("text-decoration","underline");
 		$("body").fadeIn(1000);
+		parent.ResizeFrame();
 	});
 	
 })(jQuery);

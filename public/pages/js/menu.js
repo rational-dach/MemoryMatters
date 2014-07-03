@@ -1,8 +1,10 @@
 (function($){
 
+    $.ajaxSetup({ cache: false });
+    
 	//cache nav
 	var nav = $("#topNav");
-
+	
 	checkUser();
 	
 	//add indicators and hovers to submenu parents
@@ -23,40 +25,46 @@
 		}
 	});
 	
-	$( 'li' ).on( 'click', function( event ) {
-		if ($( this ).text() == "Open Old Game"){
-			window.location.href='./../indexOld.html';
-		}
-	});
 
-	$( '#logon' ).on( 'click', function( event ) {
+	$( 'li' ).on( 'click', function( event ) {
+	    
+	    var frame = document.getElementById("iframe");
+	    var frameDoc = frame.contentDocument || frame.contentWindow.document;
+	    frameDoc.removeChild(frameDoc.documentElement);
+	    
 		if ($( this ).text() == "Sign In"){
-			window.location.href='login.html';
+		    $('#iframe').data('location', 'login.html');
+		    $('#iframe').attr('src', 'login.html');
+		}
+		else if ($( this ).text() == "Register"){
+		    $('#iframe').data('location', 'register.html');
+		    $('#iframe').attr('src', 'register.html');
+		}
+		else  if ($( this ).text() == "Computer"){
+		    $('#iframe').data('location', 'game.html');
+		    $('#iframe').attr('src', 'game.html');
 		}
 	});
 	
-	$( 'li' ).on( 'click', function( event ) {
-		if ($( this ).text() == "logout"){
-		logout();
-		}
-	});
 
-	$( 'li' ).on( 'click', function( event ) {
-		if ($( this ).text() == "Register"){
-			window.location.href='register.html';
-		}
+	$('#iframe').load(function(){
+	    //The iframe has loaded or reloaded. 
+	    var url = document.getElementById("iframe").contentWindow.location.pathname;
+	    var currentFrame = $('#iframe').data('location');
+	    if (currentFrame) {
+	        if(url.substr(url.length - currentFrame.length) != currentFrame) {
+	            console.log("url:", url, "cur: ", currentFrame);
+	            ShowWelcome();
+	        }
+	    }
+	    else
+	        ShowWelcome();
 	});
-
-	$( 'li' ).on( 'click', function( event ) {
-		if ($( this ).text() == "Computer"){
-			window.location.href='game.html';
-		}
-	});
-
+	
 	$(document).ready(function($){ 
 		$('#topNav').show();
 	});
-	
+		
 })(jQuery);
 
 function checkUser() {
@@ -72,8 +80,26 @@ function checkUser() {
 	     success: function(data) {
 	    	 if (data.username && data.username != "") {
 	    		 $('#logon').text(data.username);
-	    		 $("#logon").after("<ul><li><a href=\"#\" title=\"Sub Nav Link 1\">logout</a></li></ul>");
-	    		 $("<span>").text("^").appendTo($("#logon").children(":first"));
+	    		 $("#logon").after("<ul><li id=\"logout\"><a href=\"#\" title=\"log out\">logout</a></li></ul>");
+
+	    		 if ($("#logon_li").find("ul").length > 0) {
+
+	    		     $("<span>").text("^").appendTo($("#logon_li").children(":first"));
+
+	    		     //show subnav on hover
+	    		     $("#logon_li").mouseenter(function() {
+	    		         $(this).find("ul").stop(true, true).slideDown();
+	    		     });
+
+	    		     //hide submenus on exit
+	    		     $("#logon_li").mouseleave(function() {
+	    		         $(this).find("ul").stop(true, true).slideUp();
+	    		     });
+	    		 }
+	    		 
+	    		 $( '#logout' ).on( 'click', function( event ) {
+	    		     logout();
+	    		 });
 	    	 }
 	     }
 	});
@@ -90,7 +116,30 @@ function logout() {
 	     type: 'GET',
 	     url: url,
 	     success: function(data) {
-	    	 location.reload();
+	         $('#logon').text("Sign In");
+	         $("#logon_li").find("ul").each(
+	           function() {
+	             var elem = $(this);
+	               elem.remove();
+	           }
+	         );
+	    	 ShowWelcome();
 	     }
 	});
+}
+
+function ResizeFrame() {
+    var content = document.getElementById("iframe");
+    content.height = content.contentWindow.document.body.scrollHeight + 20 + "px";
+    content.width = content.contentWindow.document.body.scrollWidth + 20 + "px";
+}
+
+function ShowWelcome() {
+    $('#iframe').data('location', 'welcome.html');
+    $('#iframe').attr('src', 'welcome.html');
+}
+
+function LoggedIn() {
+    checkUser();
+    ShowWelcome();
 }

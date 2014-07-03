@@ -9,13 +9,13 @@
 	var val1 = -1;
 	var val2 = -1;
 	
-	$("#menu").load("menu.html");
+	$.ajaxSetup({ cache: false });
+	
 	LayoutBoard();
 	
 	$(document).ready(function($){ 
-		$('#topNav').show();
-		$('#play').css("text-decoration","underline");
 		$("body").fadeIn(1000);
+		parent.ResizeFrame();
 		step = 3;
 		GetUser();
 	});

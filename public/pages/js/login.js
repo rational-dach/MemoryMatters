@@ -1,14 +1,14 @@
 (function($){
-	$("#menu").load("menu.html");
-	
+    
+    $.ajaxSetup({ cache: false });
+    
 	$("#Button1").on( 'click', function( event ) {
 		login();
 	});
 	
 	$(document).ready(function($){ 
-		$('#topNav').show();
-		$('#logon').css("text-decoration","underline");
 		$("body").fadeIn(1000);
+		parent.ResizeFrame();
 	});
 	
 })(jQuery);
@@ -24,8 +24,9 @@ function login() {
 	$.get( url, { userId:userId, password:password}, function(data) {
 		if (data.loggedIn == "true") {
 			console.log("yes");
-			//location.reload();
-			window.location.href='index.html';
+			//parent.ShowWelcome();
+			//parent.checkUser();
+			parent.LoggedIn();
 		}
 		else
 			console.log("no");
