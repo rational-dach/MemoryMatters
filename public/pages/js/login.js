@@ -21,8 +21,9 @@ function login() {
 	var userId = $('[name="userId"]').val();
 	var password = $('[name="password"]').val();
 	
-	$.get( url, { userId:userId, password:password}, function(data) {
-		if (data.loggedIn == "true") {
+	$.post( url, { username:userId, password:password}, function(data) {
+	    console.log(data);
+		if (data.state == "success") {
 			console.log("yes");
 			//parent.ShowWelcome();
 			//parent.checkUser();

@@ -10,7 +10,10 @@
     "bcrypt-nodejs": "*",
     "utf8":"*",
     "cookie-parser": "*",
+    "body-parser": "*",
     "express-session": "*",
-    "cfenv": "0.2.x"
+    "cfenv": "0.2.x",
+    "passport": ">= 0.2.0",
+    "passport-local": ">= 0.0.0"
   }
 }

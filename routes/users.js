@@ -66,42 +66,36 @@ router.get('/create', function(req, res) {
  });
 
 // login
-router.get('/login', function(req, res) {
-	var ret = {loggedIn: "false"};
-	//fetch user and test password verification
-	User.findOne({ _id: req.query.userId }, function(err, user) {
-		if (!err) {
-			user.comparePassword(req.query.password, function(err, isMatch) {
-				if (isMatch) {
-					ret.loggedIn = "true";
-					req.session.loggedIn = true;
-					req.session.username = user._id;
-					res.send(ret);
-				}
-				else
-					res.send(ret);
-			});
-		}
-	});
+router.post('/login', function(req, res) {
+    req.passport.authenticate('local', function(err, user, info) {
+        if (err) { 
+            return res.send({state: "error"});
+        }
+        if (!user) {
+            req.session.messages = [info.message];
+            return res.send({state: "error"});
+        }
+        req.logIn(user, function(err) {
+            if (err) { 
+                return res.send({state: "error"});
+            }
+            return res.send({state: "success"});
+        });
+    })(req, res);
 });
 
 //logout
 router.get('/logout', function(req, res) {
-	req.session.loggedIn = null;
-	req.session.user = null;
-	res.send("logged out");
+    req.logout();
+    res.redirect('/');
 });
 
 // current user
 router.get('/currentUser', function(req, res) {
 	var ret = {username: ""};
-	if (req.session.loggedIn == true) {
-		ret.username = req.session.username;
-		res.send(ret);
-	}
-	else {
-		res.send(ret);
-	}
+	if (req.isAuthenticated())
+	    ret.username = req.session.passport.user;
+	res.send(ret);
 });
 
 module.exports = router;

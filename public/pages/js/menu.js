@@ -56,10 +56,14 @@
     $('#iframe').load(function(){
         //The iframe has loaded or reloaded. 
         var url = document.getElementById("iframe").contentWindow.location.pathname;
+        if (url == "/pages/login.html")
+            return;
+        
         var currentFrame = $('#iframe').data('location');
         if (currentFrame) {
             if(url.substr(url.length - currentFrame.length) != currentFrame) {
                 console.log("url:", url, "cur: ", currentFrame);
+                checkUser();
                 ShowWelcome();
             }
         }

@@ -23,12 +23,14 @@ var express = require("express");
 var users = require('./routes/users');
 var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var session = require('express-session');
 var api_game = require('./routes/api-game');
 
 //get the core cfenv application environment
 var mongo = "";
 var port = 3000;
+var host = "localhost";
 if (cfenv) {
     var appEnv = cfenv.getAppEnv();
 
@@ -42,6 +44,7 @@ if (cfenv) {
     }
 
     port = appEnv.port;
+    host = appEnv.host;
 }
 
 if (mongo == "") { 
@@ -62,20 +65,34 @@ var app = express();
 
 // session handling
 app.use(cookieParser());
-app.use(session({secret: '1234567890QWERTY'}));
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json())
+var sessionStore = new session.MemoryStore;
+app.use(session({secret: '1234567890QWERTY', store: sessionStore}));
+
+// authentication
+var authentication = include('/js/auth.js');
+var auth = new authentication();
+app.use(auth.passport.initialize());
+app.use(auth.passport.session());
 
 //Make some objects accessible to our router
 app.use(function(req,res,next){
 	req.db = db;
 	req.controller = gameController;
-	if (req.originalUrl == "/pages/game.html") {
-		if (!req.session.loggedIn)
-			res.redirect('/');
-		else
+	req.passport = auth.passport;
+	if ((req.originalUrl != "/pages/game.html") &&
+	    (req.originalUrl.indexOf("/pages/") == 0 || 
+	     req.originalUrl == "/" || 
+	     req.originalUrl == "/users/login" ||
+	     req.originalUrl.indexOf("/users/currentUser") == 0)) {
 			next();
 	}
+	else if (req.isAuthenticated()) { 
+	    return next();
+	}
 	else {
-		next();
+	    res.redirect('/pages/login.html');
 	}
 });
 
