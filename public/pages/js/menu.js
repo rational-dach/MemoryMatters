@@ -47,7 +47,7 @@
         $('#iframe').attr('src', 'login.html');
     });
     $( '#ibmid_li' ).on( 'click', function( event ) {
-        logout();
+        loginIbm();
     });
 
     ClearLoginMenu();
@@ -140,3 +140,14 @@ function LoggedIn() {
     checkUser();
     ShowWelcome();
 }
+
+function loginIbm() {
+    var ctx = window.location.pathname;
+    ctx = ctx.substring(0, ctx.lastIndexOf("/"));
+    ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
+    var url = ctx + "ibmid";
+    
+    window.location.href = url;
+//    $.get( url, function(data) {
+//    }); 
+};

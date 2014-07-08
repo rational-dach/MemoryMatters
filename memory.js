@@ -20,12 +20,10 @@ catch(err) {
 }
 
 var express = require("express");
-var users = require('./routes/users');
 var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var api_game = require('./routes/api-game');
 
 //get the core cfenv application environment
 var mongo = "";
@@ -75,6 +73,10 @@ var authentication = include('/js/auth.js');
 var auth = new authentication();
 app.use(auth.passport.initialize());
 app.use(auth.passport.session());
+app.get('/ibmid', auth.passport.authenticate('ibmid', { scope: ['profile'] }));
+app.get('/ibmid/callback', auth.passport.authenticate('ibmid', { failureRedirect: '/', scope: ['profile'] }), function(req, res) {
+    res.redirect('/');
+});
 
 //Make some objects accessible to our router
 app.use(function(req,res,next){
@@ -100,6 +102,8 @@ app.use(function(req,res,next){
 setInterval(gameController.Process, 2000);
 
 // application context
+var users = require('./routes/users');
+var api_game = require('./routes/api-game');
 app.use(express.static(__dirname + '/public'));
 app.use('/users', users);
 app.use('/game', api_game);
