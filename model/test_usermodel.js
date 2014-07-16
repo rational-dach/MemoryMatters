@@ -5,6 +5,8 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var User = require('../model/usermodel.js');
+var DBVersion = require('../model/dbversioning.js');
+
 
 
 //Compile a 'User' model using the userSchema as the structure.
@@ -43,18 +45,36 @@ test.save(function(err, test) {
             console.log("test");
         }
     });
-    var test2 = new User({
-        _id: 'test2'
-            , firstName: 'test'
-                , lastName: 'test'  
-                    , email: 'test@localhost'
-                        , password: 'password'});
-
-    User.isUserIdUnique(test2._id, function (result){
-        console.log(result);
-        //test.remove();
-        //test2.remove();
-    });
 });
 
+var test2 = new User({
+    _id: 'test2'
+        , firstName: 'test'
+            , lastName: 'test'  
+                , email: 'test@localhost'
+                    , password: 'password'});
+
+User.isUserIdUnique(test2._id, function (result){
+    console.log(result);
+//  test.remove();
+//  test2.remove();
+});
+
+
+/*
+DBVersion.getVersion(function(ver){
+	console.log("Version: " + ver);
+});*/
+
+/*
+DBVersion.V1(function(err){
+
+	console.log(err);
+
+});*/
+
+DBVersion.upgradeDatabase(function(){
+
+    console.log("DB Upgrade OK!");
+});
 

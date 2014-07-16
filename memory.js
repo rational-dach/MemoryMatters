@@ -25,6 +25,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+//handle our DB Versioning stuff
+var DBVersion = require('./model/dbversioning.js');
+
 //get the core cfenv application environment
 var mongo = "";
 var port = 3000;
@@ -55,7 +58,12 @@ if (mongo == "") {
 
 console.log(mongo);
 
-mongoose.connect(mongo.uri);
+mongoose.connect(mongo.uri,function(cb) {
+    // upgrade DB first after initial connection;
+    DBVersion.upgradeDatabase(function(){
+        console.log("DB Upgrade OK!");
+    });
+});
 var db = null; //mongoose.connection;
 
 //create application

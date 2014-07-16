@@ -16,6 +16,7 @@
         "passport": ">= 0.2.0",
         "passport-local": ">= 0.0.0",
         "passport-oauth": "1.0.0",
-        "passport-ibmid-oauth2": ">= 0.0.4"
+        "passport-ibmid-oauth2": ">= 0.0.4",
+        "async":"*"
     }
 }
