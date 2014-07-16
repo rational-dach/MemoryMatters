@@ -4,7 +4,7 @@
 
     //cache nav
     var nav = $("#topNav");
-
+    var ruleswindow = null;
     //add indicators and hovers to submenu parents
     nav.find("li").each(function() {
         if ($(this).find("ul").length > 0) {
@@ -35,6 +35,11 @@
             ClearIFrame();
             $('#iframe').data('location', 'game.html');
             $('#iframe').attr('src', 'game.html');
+        }
+        else if ($ (this).text() == "Rules") {
+            if ((ruleswindow == null) || (ruleswindow.closed)) {
+                ruleswindow = window.open("gamerules.html","_blank", "top= 10, left=10, width= 600, height = 800");
+            }
         }
     });
 
