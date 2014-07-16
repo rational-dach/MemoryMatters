@@ -1,21 +1,21 @@
 {
-  "name": "MemoryMatters",
-  "description": "Memory Mattes App",
-  "version": "0.8.0",
-  "private": true,
-  "dependencies": {
-    "express": "4.x",
-    "mongodb": "*",
-    "mongoose": "*",
-    "bcrypt-nodejs": "*",
-    "utf8":"*",
-    "cookie-parser": "*",
-    "body-parser": "*",
-    "express-session": "*",
-    "cfenv": "0.2.x",
-    "passport": ">= 0.2.0",
-    "passport-local": ">= 0.0.0",
-    "passport-oauth": "1.0.0",
-    "passport-ibmid-oauth2": ">= 0.0.4"
-  }
+    "name": "MemoryMatters",
+    "description": "Memory Mattes App",
+    "version": "0.8.0",
+    "private": true,
+    "dependencies": {
+        "express": "4.x",
+        "mongodb": "*",
+        "mongoose": "*",
+        "bcrypt-nodejs": "*",
+        "utf8":"*",
+        "cookie-parser": "*",
+        "body-parser": "*",
+        "express-session": "*",
+        "cfenv": "0.2.x",
+        "passport": ">= 0.2.0",
+        "passport-local": ">= 0.0.0",
+        "passport-oauth": "1.0.0",
+        "passport-ibmid-oauth2": ">= 0.0.4"
+    }
 }

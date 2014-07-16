@@ -4,7 +4,7 @@ function Auth() {
     var LocalStrategy = require('passport-local').Strategy;
     var IbmIdStrategy = require('passport-ibmid-oauth2').Strategy;
     var User = include('model/usermodel.js');
-    
+
     passport.serializeUser(function(user, done) {
         done(null, user);
     });
@@ -32,13 +32,13 @@ function Auth() {
             });
         });
     }));
-    
+
     var port = (process.env.VCAP_APP_PORT || 3000);
     var host = (process.env.VCAP_APP_HOST || 'localhost');
     var url = JSON.parse(process.env.VCAP_APPLICATION || '{"uris":["' + 'https://' + host + ':' + port + '"]}').uris[0]
     var SSO_CLIENT_ID = (process.env.SSO_CLIENT_ID || ' ');
     var SSO_CLIENT_SECRET = (process.env.SSO_CLIENT_SECRET || ' ');
-    
+
     passport.use('ibmid', new IbmIdStrategy({
         clientID: SSO_CLIENT_ID,
         clientSecret: SSO_CLIENT_SECRET,
@@ -52,7 +52,7 @@ function Auth() {
         return done(null, profile.userDisplayName[0]);
     }
     ));
-    
+
     this.passport = passport;
 };
 

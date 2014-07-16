@@ -58,7 +58,7 @@
         var url = document.getElementById("iframe").contentWindow.location.pathname;
         if (url == "/pages/login.html")
             return;
-        
+
         var currentFrame = $('#iframe').data('location');
         if (currentFrame) {
             if(url.substr(url.length - currentFrame.length) != currentFrame) {
@@ -146,8 +146,8 @@ function loginIbm() {
     ctx = ctx.substring(0, ctx.lastIndexOf("/"));
     ctx = ctx.substring(0, ctx.lastIndexOf("/") + 1);
     var url = ctx + "ibmid";
-    
+
     window.location.href = url;
-//    $.get( url, function(data) {
-//    }); 
+//  $.get( url, function(data) {
+//  }); 
 };

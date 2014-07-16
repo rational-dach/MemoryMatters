@@ -1,17 +1,17 @@
-// helper for including js files
+//helper for including js files
 global.base_dir = __dirname;
 global.abs_path = function(path) {
-  return base_dir + path;
+    return base_dir + path;
 };
 global.include = function(file) {
-  return require(abs_path('/' + file));
+    return require(abs_path('/' + file));
 };
 
-// instantiate game controller
+//instantiate game controller
 var controller = include('/js/controller.js');
 var gameController = new controller();
 
-// variable for this script
+//variable for this script
 var cfenv = null;
 try { 
     cfenv = require('cfenv');
@@ -46,11 +46,11 @@ if (cfenv) {
 }
 
 if (mongo == "") { 
-	mongo = {
-			"username" : "user1",
-			"password" : "secret",
-			"uri" : "mongodb://localhost:27017/memory"
-	};
+    mongo = {
+            "username" : "user1",
+            "password" : "secret",
+            "uri" : "mongodb://localhost:27017/memory"
+    };
 }
 
 console.log(mongo);
@@ -58,17 +58,17 @@ console.log(mongo);
 mongoose.connect(mongo.uri);
 var db = null; //mongoose.connection;
 
-// create application
+//create application
 var app = express();
 
-// session handling
+//session handling
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json())
 var sessionStore = new session.MemoryStore;
 app.use(session({secret: '1234567890QWERTY', store: sessionStore}));
 
-// authentication
+//authentication
 var authentication = include('/js/auth.js');
 var auth = new authentication();
 app.use(auth.passport.initialize());
@@ -80,28 +80,28 @@ app.get('/ibmid/callback', auth.passport.authenticate('ibmid', { failureRedirect
 
 //Make some objects accessible to our router
 app.use(function(req,res,next){
-	req.db = db;
-	req.controller = gameController;
-	req.passport = auth.passport;
-	if ((req.originalUrl != "/pages/game.html") &&
-	    (req.originalUrl.indexOf("/pages/") == 0 || 
-	     req.originalUrl == "/" || 
-	     req.originalUrl == "/users/login" ||
-	     req.originalUrl.indexOf("/users/currentUser") == 0)) {
-			next();
-	}
-	else if (req.isAuthenticated()) { 
-	    return next();
-	}
-	else {
-	    res.redirect('/pages/login.html');
-	}
+    req.db = db;
+    req.controller = gameController;
+    req.passport = auth.passport;
+    if ((req.originalUrl != "/pages/game.html") &&
+            (req.originalUrl.indexOf("/pages/") == 0 || 
+                    req.originalUrl == "/" || 
+                    req.originalUrl == "/users/login" ||
+                    req.originalUrl.indexOf("/users/currentUser") == 0)) {
+        next();
+    }
+    else if (req.isAuthenticated()) { 
+        return next();
+    }
+    else {
+        res.redirect('/pages/login.html');
+    }
 });
 
-// process controller every interval
+//process controller every interval
 setInterval(gameController.Process, 2000);
 
-// application context
+//application context
 var users = require('./routes/users');
 var api_game = require('./routes/api-game');
 app.use(express.static(__dirname + '/public'));
@@ -109,6 +109,6 @@ app.use('/users', users);
 app.use('/game', api_game);
 
 
-// ready to go
+//ready to go
 app.listen(port);
 console.log("Server listening on port " + port);
