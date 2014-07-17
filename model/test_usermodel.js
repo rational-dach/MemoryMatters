@@ -4,10 +4,22 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
-var User = require('../model/usermodel.js');
-var DBVersion = require('../model/dbversioning.js');
+var path = require('path');
+
+//helper for including js files
+global.include = function(file) {
+    absPath = __dirname;
+    absPath = path.normalize(absPath);
+    sep = path.sep;
+    absPath = absPath.substring(0, absPath.lastIndexOf(sep));
+    absPath = path.join(absPath,file);
+    console.log(absPath);
+    return require(absPath);
+};
 
 
+var User = include('model/usermodel.js');
+var DBVersion = include('model/dbversioning.js');
 
 //Compile a 'User' model using the userSchema as the structure.
 //Mongoose also creates a MongoDB collection called 'Users' for these documents.

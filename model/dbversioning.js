@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var Schema = mongoose.Schema;
-var User = require('../model/usermodel.js');
+var User = include('model/usermodel.js');
 
 //change version number here
 var currentDbVersion = 2;
