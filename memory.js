@@ -95,6 +95,8 @@ app.use(function(req,res,next){
             (req.originalUrl.indexOf("/pages/") == 0 || 
                     req.originalUrl == "/" || 
                     req.originalUrl == "/users/login" ||
+                    req.originalUrl.indexOf("/users/useridcheck") == 0 ||
+                    req.originalUrl.indexOf("/users/create") == 0 ||
                     req.originalUrl.indexOf("/users/currentUser") == 0)) {
         next();
     }
