@@ -37,9 +37,13 @@
             $('#iframe').attr('src', 'game.html');
         }
         else if ($ (this).text() == "Rules") {
+        	alert("Hello");
             if ((ruleswindow == null) || (ruleswindow.closed)) {
                 ruleswindow = window.open("gamerules.html","_blank", "top= 10, left=10, width= 600, height = 800");
             }
+        else if ($ (this).text() == "about") {
+                alert("Memory Matters v0.1");
+        }
         }
     });
 
