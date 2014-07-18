@@ -43,6 +43,10 @@
         }
     });
 
+    $( '#about_li' ).on( 'click', function( event ) {
+        alert("Memory Matters v0.1");
+    });
+
     $( '#logout_li' ).on( 'click', function( event ) {
         logout();
     });
