@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="text/javascript">
+if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/Android/i))) {
+	if (document.cookie.indexOf("iphone_redirect=false") == -1)
+		var ctx = window.location.pathname;
+	    ctx = ctx.substring(0, ctx.lastIndexOf("/")+1);
+	    var url = ctx + "pages/memoryMobile1.html";
+		window.location = url;
+}
+</script>
 <meta http-equiv="refresh" content="0; url=pages/menu.html" />
 </head>
 </html>
